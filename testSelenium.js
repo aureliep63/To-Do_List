@@ -5,7 +5,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
   try {
     console.log("1_ Chargement de la page");
-    await driver.get("file:///C:/Users/HB/Desktop/Selenium/Selenium/index.html");
+    await driver.get("file:///C:/Users/HB/Desktop/Selenium/Selenium/public/index.html");
     await driver.sleep(2000);
 
     console.log("2_ Vérif du titre");

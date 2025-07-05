@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "selenium-webdriver": "^4.31.0"
+  },
+  "scripts": {
+    "test": "node .\testSelenium.js"
   }
+
 }
