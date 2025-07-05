@@ -18,13 +18,27 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Installer les dependences
+      - name: Installer les dépendances
         run: npm install
 
       - name: Installer Google Chrome
         run: |
           sudo apt-get update
+          sudo apt-get install -y wget curl gnupg
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+
+      - name: Installer ChromeDriver
+        run: |
+          sudo apt-get install -y unzip xvfb
+          CHROME_VERSION=$(google-chrome --version | grep -oP '[0-9.]+' | head -1 | cut -d. -f1)
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget -N https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Lancer les tests
         run: npm run test
