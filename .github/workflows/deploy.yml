@@ -38,13 +38,17 @@ jobs:
       - name: Attendre que le serveur soit prêt
         run: wait-on http://127.0.0.1:8080
 
-      - name: Télécharger ChromeDriver
+      - name: Télécharger ChromeDriver compatible
         run: |
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          wget -q -O chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip
+          echo "Chrome version détectée: $CHROME_VERSION"
+          BASE_URL="https://storage.googleapis.com/chrome-for-testing-public"
+          ZIP_URL="$BASE_URL/$CHROME_VERSION/linux64/chromedriver-linux64.zip"
+          echo "Téléchargement depuis: $ZIP_URL"
+          wget -q -O chromedriver.zip $ZIP_URL || (echo "Erreur: impossible de télécharger ChromeDriver" && exit 1)
           unzip chromedriver.zip
           chmod +x chromedriver-linux64/chromedriver
-          mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 
       - name: Lancer les tests Selenium
         run: npm run test
