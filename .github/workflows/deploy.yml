@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Installer les dépendances (inclut chromedriver)
-        run: npm install
+      - name: Installer les dépendances
+        run: npm install # This will now only install selenium-webdriver
 
       - name: Installer Google Chrome
         run: |
