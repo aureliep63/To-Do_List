@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Installer les dépendances
+      - name: Installer les dépendances (inclut chromedriver)
         run: npm install
 
       - name: Installer Google Chrome
@@ -27,14 +27,13 @@ jobs:
           sudo apt-get install -y google-chrome-stable
 
       - name: Installer un serveur HTTP statique (pour les tests locaux)
-        run: npm install -g http-server # Installe un serveur HTTP globalement
+        run: npm install -g http-server
 
       - name: Démarrer le serveur HTTP
-        run: http-server ./public -p 8080 & # Démarre le serveur en arrière-plan
-        # Le "&" est crucial pour que l'étape continue et ne bloque pas le workflow
+        run: http-server ./public -p 8080 &
 
       - name: Lancer les tests
-        run: npm run test # Votre script de test doit maintenant viser http://localhost:8080
+        run: npm run test
 
       - name: Deployer avec Netlify
         if: success()
