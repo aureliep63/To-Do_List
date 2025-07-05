@@ -1,14 +1,25 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const chrome = require('selenium-webdriver/chrome');
-
+// Import the ServiceBuilder and the path to the chromedriver executable
+const { ServiceBuilder } = require('selenium-webdriver/chrome');
+const chromeDriverPath = require('chromedriver').path; // This gives the path to the npm-installed chromedriver
 
 (async function runTests() {
   let options = new chrome.Options();
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
+  // options.setChromeBinaryPath("/usr/bin/google-chrome"); // Keep this line commented out
 
-  let driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
+  // Explicitly set the ChromeDriver service
+  let serviceBuilder = new ServiceBuilder(chromeDriverPath);
+
+  // Build the driver using the service builder
+  let driver = await new Builder()
+    .forBrowser("chrome")
+    .setChromeOptions(options)
+    .setChromeService(serviceBuilder) // <-- Use the ServiceBuilder here
+    .build();
 
 
   try {
