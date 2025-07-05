@@ -11,12 +11,11 @@ const { ServiceBuilder } = require('selenium-webdriver/chrome');
 
   const service = new ServiceBuilder('/usr/local/bin/chromedriver');
 
-
   let driver = await new Builder()
     .forBrowser("chrome")
     .setChromeOptions(options)
+    .setChromeService(service) // ✅ Ajout essentiel
     .build();
-
 
   try {
     console.log("1_ Chargement de la page");
@@ -61,7 +60,6 @@ const { ServiceBuilder } = require('selenium-webdriver/chrome');
     let deleteButton = await tasks[0].findElement(By.css("button"));
     await deleteButton.click();
     await driver.sleep(2000);
-
 
     console.log("8_ Vérif 1 seule tâche restante");
     await driver.wait(async () => {

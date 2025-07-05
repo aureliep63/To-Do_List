@@ -38,15 +38,19 @@ jobs:
       - name: Attendre que le serveur soit prêt
         run: wait-on http://127.0.0.1:8080
 
-      - name: Télécharger ChromeDriver compatible
+      - name: Installer Chrome stable 125
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          echo "Chrome version détectée: $CHROME_VERSION"
-          BASE_URL="https://storage.googleapis.com/chrome-for-testing-public"
-          ZIP_URL="$BASE_URL/$CHROME_VERSION/linux64/chromedriver-linux64.zip"
-          echo "Téléchargement depuis: $ZIP_URL"
-          wget -q -O chromedriver.zip $ZIP_URL || (echo "Erreur: impossible de télécharger ChromeDriver" && exit 1)
-          unzip chromedriver.zip
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://storage.googleapis.com/chrome-for-testing-public/125.0.6422.60/linux64/chrome-linux64.zip
+          unzip chrome-linux64.zip
+          sudo mv chrome-linux64 /opt/chrome
+          sudo ln -s /opt/chrome/chrome /usr/bin/google-chrome
+
+      - name: Installer ChromeDriver 125
+        run: |
+          wget https://storage.googleapis.com/chrome-for-testing-public/125.0.6422.60/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
           chmod +x chromedriver-linux64/chromedriver
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
 
