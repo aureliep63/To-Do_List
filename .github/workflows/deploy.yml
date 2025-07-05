@@ -7,7 +7,7 @@ on:
 
 jobs:
   test_and_deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # On garde ubuntu-latest pour les étapes générales
 
     steps:
       - name: Checkout repository
@@ -19,12 +19,13 @@ jobs:
           node-version: "18"
 
       - name: Installer les dépendances
-        run: npm install # This will now only install selenium-webdriver
+        run: npm install
 
-      - name: Installer Google Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+      # NOUVEAU: Utiliser l'action setup-chrome pour garantir une installation compatible
+      - name: Setup Google Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable # Ou une version spécifique si nécessaire, ex: 126.0.6478.126
 
       - name: Installer un serveur HTTP statique (pour les tests locaux)
         run: npm install -g http-server
@@ -33,6 +34,7 @@ jobs:
         run: http-server ./public -p 8080 &
 
       - name: Lancer les tests
+        # Assurez-vous que http-server a bien démarré avant de lancer les tests
         run: npm run test
 
       - name: Deployer avec Netlify
