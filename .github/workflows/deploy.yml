@@ -10,25 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Installer les dependences
+        run: npm install
 
-    - name: Run tests
-      run: npm run test
+      - name: Installer Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-    - name: Deploy to Netlify
-      if: success()
-      uses: netlify/actions/cli@master
-      with:
-        args: deploy --prod --dir=./public
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Lancer les tests
+        run: npm run test
+
+      - name: Deployer avec Netlify
+        if: success()
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --prod --dir=./public
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
