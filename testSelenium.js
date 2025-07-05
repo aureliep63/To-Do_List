@@ -12,7 +12,7 @@ const chrome = require('selenium-webdriver/chrome');
 
   try {
     console.log("1_ Chargement de la page");
-    await driver.get("http://localhost:3000/index.html");
+    await driver.get("http://localhost:8080/index.html");
     await driver.sleep(2000);
 
     console.log("2_ Vérif du titre");

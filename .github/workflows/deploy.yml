@@ -24,30 +24,19 @@ jobs:
       - name: Installer Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget curl gnupg
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Vérifier Chrome
-        run: |
-          which google-chrome
-          google-chrome --version
+      - name: Installer un serveur HTTP statique (pour les tests locaux)
+        run: npm install -g http-server # Installe un serveur HTTP globalement
 
-      - name: Installer Xvfb
-        run: sudo apt-get install -y xvfb
-
-      - name: Lancer le serveur
-        run: |
-          npm install -g lite-server
-          nohup lite-server > /dev/null 2>&1 &
-          sleep 5
+      - name: Démarrer le serveur HTTP
+        run: http-server ./public -p 8080 & # Démarre le serveur en arrière-plan
+        # Le "&" est crucial pour que l'étape continue et ne bloque pas le workflow
 
       - name: Lancer les tests
-        run: npm run test
+        run: npm run test # Votre script de test doit maintenant viser http://localhost:8080
 
-      - name: Déployer avec Netlify
+      - name: Deployer avec Netlify
         if: success()
         uses: netlify/actions/cli@master
         with:
