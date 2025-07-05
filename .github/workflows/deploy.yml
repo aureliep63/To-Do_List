@@ -38,6 +38,9 @@ jobs:
           ls -l /usr/bin/google-chrome
           ls -l /opt/google/chrome/chrome # Si le chemin est différent
 
+      - name: Installer wait-on
+        run: npm install -g wait-on
+
       - name: Attendre que le serveur soit prêt
         run: npx wait-on http://localhost:8080
 
