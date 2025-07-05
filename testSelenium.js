@@ -1,7 +1,12 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 
 (async function runTests() {
-  let driver = await new Builder().forBrowser("chrome").build();
+  let options = new chrome.Options();
+    options.addArguments('--headless');
+    options.addArguments('--no-sandbox');
+    options.addArguments('--disable-dev-shm-usage');
+  let driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
+
 
   try {
     console.log("1_ Chargement de la page");
