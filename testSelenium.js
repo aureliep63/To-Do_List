@@ -3,19 +3,21 @@ const chrome = require('selenium-webdriver/chrome');
 const { ServiceBuilder } = require('selenium-webdriver/chrome');
 
 (async function runTests() {
-  let options = new chrome.Options();
-  options.addArguments('--headless');
-  options.addArguments('--no-sandbox');
-  options.addArguments('--disable-dev-shm-usage');
-  options.addArguments('--disable-gpu');
+let options = new chrome.Options();
+options.addArguments('--headless');
+options.addArguments('--no-sandbox');
+options.addArguments('--disable-dev-shm-usage');
+options.addArguments('--disable-gpu');
+options.setChromeBinaryPath('/opt/chrome/chrome'); 
 
-  const service = new ServiceBuilder('/usr/local/bin/chromedriver');
+const service = new ServiceBuilder('/usr/local/bin/chromedriver');
 
-  let driver = await new Builder()
-    .forBrowser("chrome")
-    .setChromeOptions(options)
-    .setChromeService(service) // ✅ Ajout essentiel
-    .build();
+let driver = await new Builder()
+  .forBrowser("chrome")
+  .setChromeOptions(options)
+  .setChromeService(service)
+  .build();
+
 
   try {
     console.log("1_ Chargement de la page");
