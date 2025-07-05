@@ -25,7 +25,7 @@ const chrome = require('selenium-webdriver/chrome');
     await driver.wait(until.titleContains("To-Do List"), 3000);
     await driver.sleep(1000);
 
-    console.log("3_ Ajout 1ère tâche 'Acheter du chocolat blanc' ");
+    console.log("3_ Ajout 1ère tâche 'Acheter du chocolat blanc ' ");
     const newTaskInput = await driver.findElement(By.id("newTaskInput"));
     const addTaskButton = await driver.findElement(By.id("addTaskButton"));
     await newTaskInput.sendKeys("Acheter du chocolat blanc");
