@@ -1,14 +1,16 @@
 {
+  "name": "todo-list-selenium",
+  "version": "1.0.0",
+  "description": "Test To-Do List avec Selenium",
+  "main": "testSelenium.js",
+  "scripts": {
+    "test": "node testSelenium.js",
+    "serve": "lite-server"
+  },
   "dependencies": {
     "selenium-webdriver": "^4.31.0"
   },
   "devDependencies": {
-  "lite-server": "^2.6.1"
-  },
-  "scripts": {
-    "start": "lite-server",
-    "test": "node testSelenium.js"
-}
-
-
+    "lite-server": "^2.6.1"
+  }
 }
