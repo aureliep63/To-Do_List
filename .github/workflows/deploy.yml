@@ -30,18 +30,24 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Installer ChromeDriver
+      - name: Vérifier Chrome
         run: |
-          sudo apt-get install -y unzip xvfb
-          wget -N https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+          which google-chrome
+          google-chrome --version
+
+      - name: Installer Xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Lancer le serveur
+        run: |
+          npm install -g lite-server
+          nohup lite-server > /dev/null 2>&1 &
+          sleep 5
 
       - name: Lancer les tests
         run: npm run test
 
-      - name: Deployer avec Netlify
+      - name: Déployer avec Netlify
         if: success()
         uses: netlify/actions/cli@master
         with:

@@ -6,12 +6,13 @@ const chrome = require('selenium-webdriver/chrome');
     options.addArguments('--headless');
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
+    options.setChromeBinaryPath("/usr/bin/google-chrome");
   let driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
 
 
   try {
     console.log("1_ Chargement de la page");
-    await driver.get("file:///C:/Users/HB/Desktop/Selenium/Selenium/public/index.html");
+    await driver.get("http://localhost:3000/index.html");
     await driver.sleep(2000);
 
     console.log("2_ Vérif du titre");
