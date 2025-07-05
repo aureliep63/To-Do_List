@@ -1,12 +1,15 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const chrome = require('selenium-webdriver/chrome');
+const { ServiceBuilder } = require('selenium-webdriver/chrome');
 
 (async function runTests() {
   let options = new chrome.Options();
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
- options.addArguments('--disable-gpu'); 
+  options.addArguments('--disable-gpu');
+
+  const service = new ServiceBuilder('/usr/local/bin/chromedriver');
 
 
   let driver = await new Builder()
