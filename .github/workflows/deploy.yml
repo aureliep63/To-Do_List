@@ -21,30 +21,24 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
+      - name: Installer wait-on
+        run: npm install -g wait-on
+
       - name: Setup Google Chrome and ChromeDriver
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
 
-      - name: Installer un serveur HTTP statique (pour les tests locaux)
+      - name: Installer un serveur HTTP statique
         run: npm install -g http-server
 
       - name: Démarrer le serveur HTTP
         run: http-server ./public -p 8080 &
 
-      - name: Debug Chrome Path
-        run: |
-          which google-chrome
-          ls -l /usr/bin/google-chrome
-          ls -l /opt/google/chrome/chrome # Si le chemin est différent
-
-      - name: Installer wait-on
-        run: npm install -g wait-on
-
       - name: Attendre que le serveur soit prêt
-        run: npx wait-on http://localhost:8080
+        run: wait-on http://127.0.0.1:8080
 
-      - name: Lancer les tests
+      - name: Lancer les tests Selenium
         run: npm run test
 
       - name: Afficher les logs en cas d’échec
@@ -52,6 +46,7 @@ jobs:
         run: cat test-output.log || echo "Pas de log trouvé"
 
       - name: Déployer avec Netlify
+        if: success()
         uses: jsmrcaga/action-netlify-deploy@v2.0.0
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
