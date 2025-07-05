@@ -7,7 +7,7 @@ on:
 
 jobs:
   test_and_deploy:
-    runs-on: ubuntu-latest # On garde ubuntu-latest pour les étapes générales
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -21,17 +21,23 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
-      # NOUVEAU: Utiliser l'action setup-chrome pour garantir une installation compatible
+      # Utiliser l'action setup-chrome pour garantir une installation compatible
       - name: Setup Google Chrome and ChromeDriver
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: stable # Ou une version spécifique si nécessaire, ex: 126.0.6478.126
+          chrome-version: stable # Garder 'stable' pour les dernières versions
 
       - name: Installer un serveur HTTP statique (pour les tests locaux)
         run: npm install -g http-server
 
       - name: Démarrer le serveur HTTP
         run: http-server ./public -p 8080 &
+
+      - name: Debug Chrome Path
+        run: |
+          which google-chrome
+          ls -l /usr/bin/google-chrome
+          ls -l /opt/google/chrome/chrome # Si le chemin est différent
 
       - name: Lancer les tests
         # Assurez-vous que http-server a bien démarré avant de lancer les tests

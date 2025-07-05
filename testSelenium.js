@@ -6,10 +6,14 @@ const chrome = require('selenium-webdriver/chrome');
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
-  // options.setChromeBinaryPath("/usr/bin/google-chrome"); // Keep this line commented out
+ options.addArguments('--disable-gpu'); // Ajouter ceci pour certains problèmes headless
 
-  // Allow Selenium Manager to find and use the correct ChromeDriver
-  // We remove the explicit ServiceBuilder and chromedriver.path setup
+  // Très important : Spécifier explicitement le chemin du binaire Chrome
+  // L'action browser-actions/setup-chrome installe généralement Chrome ici
+  // Ou parfois dans /opt/google/chrome/chrome
+  options.setChromeBinaryPath("/opt/google/chrome/chrome"); // OU Essayez "/opt/google/chrome/chrome" si le problème persiste
+
+
   let driver = await new Builder()
     .forBrowser("chrome")
     .setChromeOptions(options)
@@ -25,7 +29,7 @@ const chrome = require('selenium-webdriver/chrome');
     await driver.wait(until.titleContains("To-Do List"), 3000);
     await driver.sleep(1000);
 
-    console.log("3_ Ajout 1ère tâche 'Acheter du chocolat blanc ' ");
+    console.log("3_ Ajout 1ère tâche 'Acheter du chocolat blanc' ");
     const newTaskInput = await driver.findElement(By.id("newTaskInput"));
     const addTaskButton = await driver.findElement(By.id("addTaskButton"));
     await newTaskInput.sendKeys("Acheter du chocolat blanc");
