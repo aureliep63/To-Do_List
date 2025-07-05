@@ -21,11 +21,10 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
-      # Utiliser l'action setup-chrome pour garantir une installation compatible
       - name: Setup Google Chrome and ChromeDriver
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: stable # Garder 'stable' pour les dernières versions
+          chrome-version: stable
 
       - name: Installer un serveur HTTP statique (pour les tests locaux)
         run: npm install -g http-server
@@ -39,15 +38,20 @@ jobs:
           ls -l /usr/bin/google-chrome
           ls -l /opt/google/chrome/chrome # Si le chemin est différent
 
+      - name: Attendre que le serveur soit prêt
+        run: npx wait-on http://localhost:8080
+
       - name: Lancer les tests
-        # Assurez-vous que http-server a bien démarré avant de lancer les tests
         run: npm run test
 
-      - name: Deployer avec Netlify
-        if: success()
-        uses: netlify/actions/cli@master
+      - name: Afficher les logs en cas d’échec
+        if: failure()
+        run: cat test-output.log || echo "Pas de log trouvé"
+
+      - name: Déployer avec Netlify
+        uses: jsmrcaga/action-netlify-deploy@v2.0.0
         with:
-          args: deploy --prod --dir=./public
-        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: ./public

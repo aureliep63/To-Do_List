@@ -6,12 +6,7 @@ const chrome = require('selenium-webdriver/chrome');
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-dev-shm-usage');
- options.addArguments('--disable-gpu'); // Ajouter ceci pour certains problèmes headless
-
-  // Très important : Spécifier explicitement le chemin du binaire Chrome
-  // L'action browser-actions/setup-chrome installe généralement Chrome ici
-  // Ou parfois dans /opt/google/chrome/chrome
-  options.setChromeBinaryPath("/opt/google/chrome/chrome"); // OU Essayez "/opt/google/chrome/chrome" si le problème persiste
+ options.addArguments('--disable-gpu'); 
 
 
   let driver = await new Builder()
