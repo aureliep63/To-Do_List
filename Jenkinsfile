@@ -6,13 +6,6 @@ pipeline {
     PORT = "8080"
   }
 
-  stages {
-    stage('Cloner le dépôt') {
-      steps {
-        git 'https://github.com/aureliep63/To-Do_List.git'
-      }
-    }
-
     stage('Installer les dépendances') {
       steps {
         sh 'npm install'
