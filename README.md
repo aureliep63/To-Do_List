@@ -2,9 +2,16 @@
 
 ##  Présentation du projet
 
-Cette application est une **To-Do List** développée avec des technologies front-end simples : **HTML**, **CSS** et **JavaScript**. Elle permet à l’utilisateur d’ajouter, cocher, supprimer des tâches, le tout via une interface simple et intuitive.
+Cette application est une **To-Do List** développée avec des technologies
+ front-end simples : 
+**HTML**, **CSS** et **JavaScript**. Elle permet à l’utilisateur d’ajouter, 
+cocher, 
+supprimer des tâches, le tout via une interface simple et intuitive.
 
-L’objectif de ce projet est de mettre en place une **démarche de déploiement automatisé (CI/CD)**, à l’aide de **GitHub Actions** pour l'intégration continue, et **Netlify** pour l’hébergement du site.
+L’objectif de ce projet est de mettre en place une
+ **démarche de déploiement automatisé (CI/CD)**,
+ à l’aide de **GitHub Actions** pour l'intégration continue, et
+ **Netlify** pour l’hébergement du site.
 
 ---
 

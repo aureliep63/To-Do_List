@@ -4,9 +4,9 @@
   },
   "scripts": {
     "test": "node testSelenium.js > test-output.log 2>&1"
-  }
-,
+  },
   "devDependencies": {
     "wait-on": "^8.0.3"
   }
 }
+
