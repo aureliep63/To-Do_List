@@ -6,6 +6,7 @@ pipeline {
     PORT = "8080"
   }
 
+  stages {
     stage('Installer les dépendances') {
       steps {
         sh 'npm install'
@@ -33,7 +34,6 @@ pipeline {
     stage('Nettoyage (optionnel)') {
       steps {
         sh 'docker ps -a'
-        // Tu peux ajouter un `docker stop` ou `docker rm` ici si nécessaire
       }
     }
   }
