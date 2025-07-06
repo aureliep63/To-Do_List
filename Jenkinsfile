@@ -1,8 +1,8 @@
 pipeline {
   agent {
     docker {
-      image 'node:18'  // Image officielle Node.js version 18
-      args '-p 8080:8080' // (optionnel) expose le port 8080 du container
+      image 'node:18'
+      args '-p 8080:8080'
     }
   }
 
